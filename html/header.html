@@ -1,0 +1,69 @@
+<style>
+    #bannerSelector {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+        flex-grow: 1;
+    }
+
+    #bannerSelector ul {
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        padding: 0;
+        position: absolute;
+    }
+
+    #bannerSelector li {
+        margin-right: 10px;
+        flex-grow: 1;
+        position: relative;
+    }
+
+    #bannerSelector li:last-child {
+        margin-right: 0;
+    }
+
+    #bannerSelector li button {
+        background-color: #440044;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 0;
+    }
+
+    #bannerSelector button:hover {
+        background-color: #330033;
+    }
+
+    #header {
+        background-color: #222222;
+    }
+</style>
+
+<ul id="bannerSelector">
+    <li><a href="/index.html"><button>Home</button></a></li>
+    <li><button class="dropdown">Artificial Intelligence</button>
+        <ul style="display: none">
+            <li><a href="/html/Hex.html"><button>Hex</button></a></li>
+            <li><a href="/html/PortfolioSim.html"><button>Portfolio Simulation</button></a></li>
+        </ul>
+    </li>
+    <li><button class="dropdown">Physically-Based Simulations</button>
+        <ul style="display: none">
+            <li><a href="/html/PathPlanning.html"><button>Path Planning</button></a></li>
+            <li><a href="/html/SmokeSim.html"><button>Smoke & Fire Simulation</button></a></li>
+        </ul>
+    </li>
+    <li><button class="dropdown">Graphical Rendering</button>
+        <ul style="display: none">
+            <li><a href="/html/RedirectedWalking.html"><button>Redirected Walking</button></a></li>
+            <li><a href="/html/raytracer.html"><button>Raytracer</button></a></li>
+        </ul>
+    </li>
+</ul>
