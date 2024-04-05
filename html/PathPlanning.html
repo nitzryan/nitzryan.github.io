@@ -1,12 +1,144 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Path Planning</title>
+        <title>Path Planning & Collision Avoidance</title>
         <script src="/js/header.js" async defer></script>
         <link rel="stylesheet" href="/css/base.css">
     </head>
     <body>
         <div id="header"></div>
-        <p>Path Planning</p>
+        <p><a class="repo" href="https://github.com/nitzryan/Planning5611">Repo</a></p>
+        <div class="dropdown">
+            <button class="dropbtn">Project Overview</button>
+            <div class="dropdown-content" id="projoverview">
+                <p>This project involved guiding multiple agents throughout a map, with
+                    the agents having to avoid each other while trying to reach their destination
+                    in an efficient manner.  This is accomplished in two steps.  The first step is to
+                    create a map of nodes that an agent is capable of visiting with edges connecting nodes
+                    that can be traveled between with no obstacles.  The second step is to create the logic
+                    that will allow for the agents to move throughout the map, following a given target while
+                    avoiding other agents.  The agents do not have access to the pathing of other agents; they
+                    only have access to their current position and velocity.
+                </p>
+            </div>
+         </div>
+
+         <div class="dropdown">
+            <button class="dropbtn">Path Planning</button>
+            <div class="dropdown-content" id="mapgeneration">
+                <p>For the map generation, a number of nodes are placed in the configuration space for the agents: one
+                    node just on the inside of every room, another just on the outside of every room, and a number of nodes
+                    generated through a probabilistic roadmap.  Connections are then drawn between
+                    the nodes, given the following constraints.
+                </p>
+                <ul>
+                    <li>The nodes must be within a certain distance (approximately 1/3 of the map)</li>
+                    <li>An agent must be able to walk in a straight line between the nodes without colliding with the environment</li>
+                    <li>If the node is within a room, it can only be connected to the node immediately outside of the room.  This significantly
+                        increased the performance of nodes exiting the room, as they would exit and then try to get to their destination
+                    </li>
+                </ul>
+                <p>The resulting nodes & paths are shown below</p>
+                <img src="/img/path_nodes.png" width="25%">
+                <img src="/img/path_paths.png" width="25%">
+                <p>For every agent that is spawned, it will have a destination at one of the room nodes.  With this condition, using
+                    the D* path planning algorithm was used.  For creating the maps, the computational complexity is O(rooms * nodes), and then
+                    unless the map itself is changed an agent can get the best path from the D* map for the given destination.
+                </p>
+                <p>When agents are moving through the map, they will have a force that is guiding them to their next target.  This target will be a current
+                    node in the path obtained from D*.  The agent does not need to go to the precise location of each node; if there
+                    is a clear direct path from the current location to the node after the current target node, the current target node is replaced
+                    with the next target node.  Additionaly, as there will be other forces that will push an agent off
+                    of its ideal path, if an agent does not have a clear direct path to its current target node, the current target will
+                    be set to the previous node in the best path.
+                </p>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Collision Avoidance</button>
+            <div class="dropdown-content" id="avoidance">
+                <p>The agent will be guided through the simulation by a number of different forces that influence
+                    its movement.  In the event of a collision, the velocity of both agents will be set immediately to (0,0).
+                </p>
+                <ul>
+                    <li>Path Force.  A force that guides the agent to the current node in its best path</li>
+                    <li>TTC Force.  A force that seperates agents based on the Time-To-Collision based on their current velocities</li>
+                    <li>Wall Force.  A force that forces an agent away from a wall</li>
+                    <li>Imminent Collision Force.  A force that guides an agent from moving into another agent.  This force takes effect
+                        at much shorter distances than the TTC force, and it only effects the agent that is moving into a collision.  This force
+                        has no effect on an agent that is not moving, but has another agent that is moving into it.
+                    </li>
+                    <li>Avoid Wrong Direction Force.  A force that slows the velocity (but keeps the direction) when the current
+                        direction is far enough off from the target direction.  Currently, this effect starts at 90deg off and maximizes at 180deg off.
+                    </li>
+                </ul>
+                <p>The TTC force is the most complicated of these forces, and it is also the most impactful in avoiding collisions with
+                    other agents.  This force is calculated as follows.
+                </p>
+                <ol>
+                    <li>Determine where the two agents will be when they collide.  If they will not collide, or if the Time-To-Collision is
+                        longer than some configuration time, the force is ignored.
+                    </li>
+                    <li>Determine the direction that each agent would need to move so that there would not be a collision.  This should
+                        be opposite directions for each agent, and they should be along the axis perpendicular to the tangent of the
+                        collision point.
+                    </li>
+                    <li>Apply a force to each agent in this direction, scaled inversely by the time to collision.</li>
+                </ol>
+                <p>This results in agents taking small deviations over a long period to avoid collsions that are forseable far away, 
+                    and taking more drastic measures for imminent collisions.
+                </p>
+                <p>The imminent collision force was added because TTC forces were not able to handle agents that were close to obstacles.
+                    The main scenario this addressed was when an agent was between another agent and a wall; that agent would be pushed towards the
+                    wall by the other agent, and the wall would guide it away from it, resulting in a large number of collisions.
+                </p>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Results</button>
+            <div class="dropdown-content" id="results">
+                <img src="/img/path_overview.gif" width="33%">
+                <p>The agents are all able to get to their destination with a low number of collisions.
+                    The current configuration of parameters was set in a way that would allow for some small
+                    collisions, but had agents moving considerably faster than what would be done for agents that
+                    could not collide. This is simulating the results of how humans move in crowded spaces; while
+                    people attempt to avoid collisions, they do sometimes occur without much impact, especially those at
+                    low speeds.
+                </p>
+                <p>For agents that are approaching each other moving in opposite directions, the planning does a
+                    good job at avoiding collisions while minimizing the amount of lost time compared to the pathing
+                    without collisions.  This result was able to be obtained solely from the TTC forces.  The addition of the
+                    immediate avoidance force tends to cause agents to give more space when passing by agents than
+                    necessary, which is less efficient but may be more realistic than those with TTC alone.  This was an added
+                    benefit and was not the expected behavior when this was implemented.
+                </p>
+                <p>The added force to stop agents from being forced in the wrong direction by other agents
+                    does result in a smoother simulation, but the results were not perfect and the aggresiveness of
+                    this force resulted in a significant tradeoff.  If this force was too low, the agents would often go
+                    significantly off their path, while if it was made higher they would do a better job sticking to the path
+                    but would occasionally stop aggressively.  The image below shows this; the middle agent was getting
+                    pressured by the agent behind it, but after getting too far off the path it would stop, causing the agent behind to
+                    collide with it as it stopped faster than it expected.  Even with these collisions being added in, I 
+                    felt that the more aggressive stopping led to better overall results.
+                </p>
+                <img src="/img/path_stopping.gif" width="15%">
+                <p>There were a couple of other areas this scenario could be improved.  The agents sometimes will collide with
+                    the walls near the openings of rooms that they are trying to enter or exit.  Agents also struggle when
+                    two are going in roughly the same direction, but they need to cross over each other.  For example, if two agents 
+                    are both going up, but the one on the left wants to go to the upper-right and the one on the right wants to go to 
+                    the upper-left, they will both walk upwards with the TTC forces keeping them apart in the left/right direction.  After moving
+                    further up, they will need to move more horizontally than vertically and will be too close for the TTC forces to work well.
+                    This could likely be improved by having each agent have slightly different values for different forces, as these
+                    differences would likely cause them to not move together as much when moving upwards.
+                </p>
+                <p>Another area for improvement would be using a better method to generate the node locations.  Currently it is randomly 
+                    sampling locations in the valid configuration space.  This approach gives more points in areas with lots of space, as
+                    well as causing random clumps of a large number of nodes and random areas of few.  One method to improve this would be
+                    to use a random generation method that prevents generating points too close to other points.  Another method would be 
+                    to take points that are not in the configuration space and project them into the space; this would cause areas that don't have
+                    much area in the configuration space be more likely to be assigned nodes, which would result in better planning.
+                </p>
+            </div>
+        </div>
     </body>
 </html>
