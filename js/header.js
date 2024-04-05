@@ -1,22 +1,21 @@
-let header = document.getElementById("header");
-
 async function f() {
     const response = await fetch("/html/header.html");
     let text = await response.text();
     header.innerHTML = text;
 
-    let elements = document.getElementsByClassName("dropdown");
-    Array.from(elements).forEach(e => {
-        e.addEventListener('click', function() {
-            console.log();
-            let c = e.parentElement.children[1];
-            if (c.style.display === 'block') {
-                c.style.display = 'none';
-            } else {
-                c.style.display = 'block';
-            }
-        });
+    var dropdownButtons = document.getElementsByClassName("dropbtn");
+
+    for (let i = 0; i < dropdownButtons.length; i++) {
+    dropdownButtons[i].addEventListener('click', function(event) {
+        let parent = event.target.parentElement;
+        let content = parent.children[1];
+        if (content.style.display === 'block') {
+        content.style.display = 'none';
+        } else {
+        content.style.display = 'block';
+        }
     });
+    }
 }
 
 if (header != null) {
