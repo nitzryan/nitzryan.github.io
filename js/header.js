@@ -1,5 +1,5 @@
 async function f() {
-    const response = await fetch("/html/header.html");
+    const response = await fetch("html/header.html");
     let text = await response.text();
     header.innerHTML = text;
 
