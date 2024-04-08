@@ -7,5 +7,62 @@
     </head>
     <body>
         <div id="header"></div>
+        <p>Other Projects</p>
+        <div class="dropdown">
+            <button class="dropbtn">Raytracer</button>
+            <div class="dropdown-content">
+                <p><a class="repo" href="https://github.com/nitzryan/raytracer">Repo</a></p>
+                <p>This project started from making a raytracer from scratch in C++.  This was using the Blinn-Phong lighting model,
+                    using sphere and triangle shapes with optional textures.  This is currently being expanded upon to involve using
+                    Qt to create and modify scenes from within an app, allowing for textures to have per-pixel material properties rather
+                    than constant for the texture, and rewriting many of the data structures to allow for later GPU parallelization.
+                </p>
+                <img src="img/raytracer_colors.png" width="25%">
+                <img src="img/raytracer_demo.png" width="25%">
+            </div>
+         </div>
+         <div class="dropdown">
+            <button class="dropbtn">Redirected Walking</button>
+            <div class="dropdown-content">
+                <p><a class="repo" href="https://github.com/kcliu23/RedirectedWalking">Repo</a></p>
+                <p>This VR Godot project consisted of implementing a technique known as Redirected Walking to allow for a user to walk within
+                    a 3D world by walking in the real world, while accounting for the space restrictions that users have in their physical space.
+                    For traversing a 3D environment, physical movement is the most immersive method of transportation, as well as often leaving users
+                    with less motion sickness than other methods of moving a 3D character, so techniques that can allow for physical walking can create
+                    VR experiences that are not able to be replicated with other applications.
+                </p>
+                <p>The theory behind Redirected Walking is that humans will use multiple senses when moving: sight is the main one, but there will also be
+                    input from balance (particularly when turning) as well as correlating their physical movement with the change in the scene.  One of the
+                    main theorized causes of cybersickness in VR applications is having sensory mismatch; the movement that the user is seeing does not correspond
+                    to the movement that the other senses believe is happening.  Redirected Walking techniques address this mismatch by having physical movement
+                    cause equivalent virtual movement, but with that movement not being 1:1 between the physical and virtual worlds.  If the differences between
+                    what the user is seeing and what they are feeling are small enough, they will not have issues with cybersickness and will tend to believe their
+                    eyes over their other senses (human sight is less noisy than many other senses, so humans may already do this sensory override in real life).
+                </p>
+                <p>The first and most impactful Redirected Walking technique that was implemented was Steer-To-Center.  The basis of this technique is that when the user
+                    is walking away from the center of the room, the world will be slightly rotated around the user.  The direction of rotation will have the user turn in
+                    their physical world to continue walking straight in the virtual one.  For example, if the user is in the right-side of their playing space and walks
+                    up in their playing space, the world will be rotated slightly to the right as they are walking.  Since the user is trying to walk straight, they will
+                    slightly curve to the left in the real-world to move straight in the virtual world.
+                </p>
+                <p>A major parameter in this method is the maximum amount of curviture that should be applied.  Currently, the maximum curviture corresponds to a 4m radius
+                    circle.  This amount is noticeable, but it was tolerable for us as developers and for those that we tested it with.  Different people react
+                    differently to VR, and this amount may be too much to some people; however, increasing the value causes less redirection and causes the user to reach the
+                    boundaries of their playing space (and need to break immersion to get them reoriented properly).  If someone using the demo wants to modify this value,
+                    it can be found on line 4 of RDW.gd.
+                </p>
+                <p>The other method that was implemented was to modify the world when the user rotates their head.  This technique is much simpler to implement, but also 
+                    less impactful, than Steer-To-Center.  If the user is rotating towards the center of the room, it will rotate the world less than they are physically rotating,
+                    and vica versa.  This is done to make it more likely for the user to be looking towards the center after rotation, as well as for rotating the head one direction
+                    and back causing the user to be facing slighly more to the center than before.  If this needs to be modified, it can be changed in line 13 of RDW.gd, with the gain
+                    representing the maximum ratio of distortion/turning that can be applied.
+                </p>
+                <p>VR applications are capable of creating experiences that are not possible outside of VR, but for this demonstation it also means there is no easy method
+                    for you to experience this if you do not have a VR headset that is capable of running this.  The Godot project is configured to build in WebXR for anyone
+                    who wants to test this on their own hardware.
+                </p>
+            </div>
+         </div>
     </body>
+
 </html>
