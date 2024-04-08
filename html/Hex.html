@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Hex AI</title>
-        <script src="js/header.js" async defer></script>
-        <link rel="stylesheet" href="css/base.css">
+        <script src="/js/header.js" async defer></script>
+        <link rel="stylesheet" href="/css/base.css">
     </head>
     <body>
         <div id="header"></div>
@@ -29,7 +29,7 @@
                     rather just an unoptimal heuristic function, or the agent seeing something that I did not see
                     myself.
                 </p>
-                <img src="img/hex_evaltree.png" width="480px">
+                <img src="/img/hex_evaltree.png" width="480px">
             </div>
          </div>
         <div class="dropdown">
@@ -42,7 +42,7 @@
                     (even stronger, if every tile is randomly selected as red or blue, one of
                     the colors will have a connection between sides).
                 </p>
-                <img src="img/hex_game.gif" width="480px">
+                <img src="/img/hex_game.gif" width="480px">
                 <p>While the rules of the game are simpler than many other games, the game itself
                     has a large amount of depth to it.  On larger boards (the largest with major
                     play is a 19x19 board), it took until 2019 for a computer program to beat the
@@ -111,14 +111,14 @@
                     the tiles are not physically connected, blue has no possibility of preventing a connection
                     assuming red plays properly.
                 </p>
-                <img src="img/hex_template.png" width="240px">
+                <img src="/img/hex_template.png" width="240px">
                 <p>The next template is an edge template.  In this template, if a chain has two or more
                     open adjacent tiles that are connected to one of the player's edges, the opponent can't stop 
                     a connection from being made to that edge.  In the example shown below, blue cannot prevent
                     red from connecting to the top edge, as playing on 3 would be countered with connecting on 4, and 
                     vica versa.
                 </p>
-                <img src="img/hex_edge.png" width="180px">
+                <img src="/img/hex_edge.png" width="180px">
                 <p>For edges, there are a number of templates that can be formed with the edge from further
                     away if most of the tiles are not occupied.  A number of these special edge templates can be
                     found <a href="http://www.mseymour.ca/hex_book/hexstrat9.html">here</a>, with some of the more common
@@ -133,7 +133,7 @@
                     not seeing any moves that improve its position, so it will often make poor moves until it sees moves that blocks
                     the opponent from making good moves.
                 </p>
-                <img src="img/hex_poison.png" width="240px">
+                <img src="/img/hex_poison.png" width="240px">
                 <p>The solution to this was to introduce a poison mechanic.  A tile is considered poisoned in
                     a direction for a player if there is not an open adjacent tile in the next rank in the direction.
                     In this scenario, tiles 17 and 18 are poisoned in the upwards direction for red, as the next
@@ -175,7 +175,7 @@
                     than it initially believed.  This results in the agent simply performing moves that prevent it from looking further
                     down the board state and realizing it is doing poorly.
                 </p>
-                <img src="img/hex_delay.png" width="480px">
+                <img src="/img/hex_delay.png" width="480px">
             </div>
          </div>
          <br>

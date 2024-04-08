@@ -2,8 +2,8 @@
 <html>
     <head>
         <title>Path Planning & Collision Avoidance</title>
-        <script src="js/header.js" async defer></script>
-        <link rel="stylesheet" href="css/base.css">
+        <script src="/js/header.js" async defer></script>
+        <link rel="stylesheet" href="/css/base.css">
     </head>
     <body>
         <div id="header"></div>
@@ -39,8 +39,8 @@
                     </li>
                 </ul>
                 <p>The resulting nodes & paths are shown below</p>
-                <img src="img/path_nodes.png" width="25%">
-                <img src="img/path_paths.png" width="25%">
+                <img src="/img/path_nodes.png" width="25%">
+                <img src="/img/path_paths.png" width="25%">
                 <p>For every agent that is spawned, it will have a destination at one of the room nodes.  With this condition, using
                     the D* path planning algorithm was used.  For creating the maps, the computational complexity is O(rooms * nodes), and then
                     unless the map itself is changed an agent can get the best path from the D* map for the given destination.
@@ -97,7 +97,7 @@
         <div class="dropdown">
             <button class="dropbtn">Results</button>
             <div class="dropdown-content" id="results">
-                <img src="img/path_overview.gif" width="33%">
+                <img src="/img/path_overview.gif" width="33%">
                 <p>The agents are all able to get to their destination with a low number of collisions.
                     The current configuration of parameters was set in a way that would allow for some small
                     collisions, but had agents moving considerably faster than what would be done for agents that
@@ -121,7 +121,7 @@
                     collide with it as it stopped faster than it expected.  Even with these collisions being added in, I 
                     felt that the more aggressive stopping led to better overall results.
                 </p>
-                <img src="img/path_stopping.gif" width="15%">
+                <img src="/img/path_stopping.gif" width="15%">
                 <p>There were a couple of other areas this scenario could be improved.  The agents sometimes will collide with
                     the walls near the openings of rooms that they are trying to enter or exit.  Agents also struggle when
                     two are going in roughly the same direction, but they need to cross over each other.  For example, if two agents 
