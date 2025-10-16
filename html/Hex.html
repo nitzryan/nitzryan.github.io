@@ -8,16 +8,16 @@
     <body>
         <div id="navbar" class="row">
     <a id="nav_home" href="/" class="banner_element">Home</a>
-    <div class="banner_element dropdown">AI/ML
+    <div class="banner_element dropdown" id="nav_ai">AI/ML
         <ul>
-            <li><a href="/html/Hex.html">Hex</a></li>
-            <li><a href="/html/PortfolioSim.html">Portfolio Simulation</a></li>
+            <li><a href="/html/Hex.html" id="nav_ai_hex">Hex</a></li>
+            <li><a href="/html/PortfolioSim.html" id="nav_ai_portsim">Portfolio Simulation</a></li>
         </ul>
     </div>
-    <div class="banner_element dropdown">Simulation
+    <div class="banner_element dropdown" id="nav_sim">Simulation
         <ul>
-            <li><a href="/html/PathPlanning.html">Path Planning</a></li>
-            <li><a href="/html/SmokeSim.html">Smoke & Fire Simulation</a></li>
+            <li><a href="/html/PathPlanning.html" id="nav_sim_pathplan">Path Planning</a></li>
+            <li><a href="/html/SmokeSim.html" id="nav_sim_smoke">Smoke & Fire Simulation</a></li>
         </ul>
     </div>
     <!--
@@ -26,180 +26,178 @@
         <li><a>Redirected Walking (VR)</a></li>
     </ul> -->
 </div>
-<div id="colorbar"></div>
-        <div id="content">
-            <p><a class="repo" href="https://github.com/nitzryan/HexCpp">Repo</a></p>
-            <div class="dropdown">
-                <button class="dropbtn">Project Overview</button>
-                <div class="dropdown-content" id="projoverview">
-                    <p>This project involves creating an AI agent that is capable of playing the
-                        board game Hex.  The agent is capable of playing against itself, or against
-                        a human player.  The application is a Qt C++ desktop application.
-                    </p>
-                    <p>The application, along with playing the game, is capable of moving back to a previous board
-                        state and doing an evaluation at that state, potentially for even longer than what was originally done.
-                        For each position, it can show the following metrics for each board state.
-                    </p>
-                    <ul>
-                        <li>Score (following best path for each agent)</li>
-                        <li>Heuristic Score (not looking further down the path)</li>
-                        <li>Number of Children (number of boards evaluated after this move was made)</li>
-                    </ul>
-                    <p>This is able to be traversed down in a tree-like structure as shown below.  This was an 
-                        extremely useful tool in debugging; often what were thought to be bugs in the program were
-                        rather just an unoptimal heuristic function, or the agent seeing something that I did not see
-                        myself.
-                    </p>
-                    <img src="/img/hex_evaltree.png" width="480px">
-                </div>
+<!-- <div id="colorbar"></div> -->
+        <p><a class="repo" href="https://github.com/nitzryan/HexCpp">Repo</a></p>
+        <div class="dropdown">
+            <button class="dropbtn">Project Overview</button>
+            <div class="dropdown-content" id="projoverview">
+                <p>This project involves creating an AI agent that is capable of playing the
+                    board game Hex.  The agent is capable of playing against itself, or against
+                    a human player.  The application is a Qt C++ desktop application.
+                </p>
+                <p>The application, along with playing the game, is capable of moving back to a previous board
+                    state and doing an evaluation at that state, potentially for even longer than what was originally done.
+                    For each position, it can show the following metrics for each board state.
+                </p>
+                <ul>
+                    <li>Score (following best path for each agent)</li>
+                    <li>Heuristic Score (not looking further down the path)</li>
+                    <li>Number of Children (number of boards evaluated after this move was made)</li>
+                </ul>
+                <p>This is able to be traversed down in a tree-like structure as shown below.  This was an 
+                    extremely useful tool in debugging; often what were thought to be bugs in the program were
+                    rather just an unoptimal heuristic function, or the agent seeing something that I did not see
+                    myself.
+                </p>
+                <img src="/img/hex_evaltree.png" width="480px">
             </div>
-            <div class="dropdown">
-                <button class="dropbtn">Hex Overview</button>
-                <div class="dropdown-content" id="hexoverview">
-                    <p>The game of Hex is a 2 player game.  Each player takes turns placing
-                        a single tile on any unoccupied place.  The purpose of the game is to 
-                        place a chain of tiles that connects both of your ends to each other.
-                        Each game of hex will end in a win for one player; a tie is not possible
-                        (even stronger, if every tile is randomly selected as red or blue, one of
-                        the colors will have a connection between sides).
-                    </p>
-                    <img src="/img/hex_game.gif" width="480px">
-                    <p>While the rules of the game are simpler than many other games, the game itself
-                        has a large amount of depth to it.  On larger boards (the largest with major
-                        play is a 19x19 board), it took until 2019 for a computer program to beat the
-                        top player, and the game has only been solved on boards 9x9 and below.
-                    </p>
-                </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Hex Overview</button>
+            <div class="dropdown-content" id="hexoverview">
+                <p>The game of Hex is a 2 player game.  Each player takes turns placing
+                    a single tile on any unoccupied place.  The purpose of the game is to 
+                    place a chain of tiles that connects both of your ends to each other.
+                    Each game of hex will end in a win for one player; a tie is not possible
+                    (even stronger, if every tile is randomly selected as red or blue, one of
+                    the colors will have a connection between sides).
+                </p>
+                <img src="/img/hex_game.gif" width="480px">
+                <p>While the rules of the game are simpler than many other games, the game itself
+                    has a large amount of depth to it.  On larger boards (the largest with major
+                    play is a 19x19 board), it took until 2019 for a computer program to beat the
+                    top player, and the game has only been solved on boards 9x9 and below.
+                </p>
             </div>
-            <div class="dropdown">
-                <button class="dropbtn">Algorithm Overview</button>
-                <div class="dropdown-content" id="algOverview">
-                    <p>To create an agent that is capable of playing the game, the
-                        Monte Carlo Tree Search algorith was used.  This algorithm involves four steps
-                        that are done recursively until some condition is met, in this case being that
-                        the alloted time is used up.
-                    </p>
-                    <ol>
-                        <li>From the root node, choose the best move for the agent that corresponds
-                            with the move.  Repeat until an agent is found that does not have scores for
-                            its children.
-                        </li>
-                        <li>Evaluate each possible move using a heuristic function</li>
-                        <li>Set the score of this node to the best score for that agent</li>
-                        <li>Propogate back up the game board, updating the scores if the 
-                            new tile score changes what an agent's best move would be
-                        </li>
-                    </ol>
-                    <p>One issue that these types of algorithms can have is balancing between making sure
-                        that all of the evaluations are not done on just the best path(s), and not performing
-                        computation on paths that have little to no chance of yielding a good move (depth vs breadth).  The choice
-                        that was used in this implementation was that, for each set of steps, the best path is
-                        evaluated but a penalty is applied based on how deep it is in the tree.  This results in
-                        poor paths being discarded immediately, while preventing the system from focusing too
-                        much on a single path.  A major downside of this approach is that it requires tuning the
-                        weight for the penalty, which may result in it performing differently in different board states.
-                    </p>
-                </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Algorithm Overview</button>
+            <div class="dropdown-content" id="algOverview">
+                <p>To create an agent that is capable of playing the game, the
+                    Monte Carlo Tree Search algorith was used.  This algorithm involves four steps
+                    that are done recursively until some condition is met, in this case being that
+                    the alloted time is used up.
+                </p>
+                <ol>
+                    <li>From the root node, choose the best move for the agent that corresponds
+                        with the move.  Repeat until an agent is found that does not have scores for
+                        its children.
+                    </li>
+                    <li>Evaluate each possible move using a heuristic function</li>
+                    <li>Set the score of this node to the best score for that agent</li>
+                    <li>Propogate back up the game board, updating the scores if the 
+                        new tile score changes what an agent's best move would be
+                    </li>
+                </ol>
+                <p>One issue that these types of algorithms can have is balancing between making sure
+                    that all of the evaluations are not done on just the best path(s), and not performing
+                    computation on paths that have little to no chance of yielding a good move (depth vs breadth).  The choice
+                    that was used in this implementation was that, for each set of steps, the best path is
+                    evaluated but a penalty is applied based on how deep it is in the tree.  This results in
+                    poor paths being discarded immediately, while preventing the system from focusing too
+                    much on a single path.  A major downside of this approach is that it requires tuning the
+                    weight for the penalty, which may result in it performing differently in different board states.
+                </p>
             </div>
-            <div class="dropdown">
-                <button class="dropbtn">Heuristic Overview</button>
-                <div class="dropdown-content" id="heuristicOverview">
-                    <p>To calculate a heuristic score to approximate a position, the following
-                        items are used.
-                    </p>
-                    <ul>
-                        <li>A center score, where tiles closer to the center are worth more points.
-                            Red tiles add to the score, blue subtract
-                        </li>
-                        <li>A tempo offset, where the score is offset depending on which player has the
-                            next move.  This is necessary as otherwise every red move improves red's position
-                            and every blue move improves blue's position, which results in the score often depending
-                            more on who had the last move in the path in the tree rather than the actual position score.
-                        </li>
-                        <li>The rank length of the longest red and blue chains.  A chain is a set of
-                            tiles that are all connected of the same color.  The rank length only considers
-                            the difference in either row (for red) or column (for blue) along the chain.
-                        </li>
-                        <li>The rank length of the longest red and blue template chains.  In a template chain,
-                            the tiles are not all physically connected, but rather the opposing player has no
-                            possible way of preventing a connection given proper play.
-                        </li>
-                    </ul>
-                    <p>The first template is a standard one.  If a player has two chains that have two or
-                        more open tiles that are adjacent to both chains, it is not possible for the opponent to
-                        prevent the chains from becoming connected.  In the example shown below, the two red 
-                        tiles are not connected.  If blue moves on 18, red can move to 25, and vica versa.  So while
-                        the tiles are not physically connected, blue has no possibility of preventing a connection
-                        assuming red plays properly.
-                    </p>
-                    <img src="/img/hex_template.png" width="240px">
-                    <p>The next template is an edge template.  In this template, if a chain has two or more
-                        open adjacent tiles that are connected to one of the player's edges, the opponent can't stop 
-                        a connection from being made to that edge.  In the example shown below, blue cannot prevent
-                        red from connecting to the top edge, as playing on 3 would be countered with connecting on 4, and 
-                        vica versa.
-                    </p>
-                    <img src="/img/hex_edge.png" width="180px">
-                    <p>For edges, there are a number of templates that can be formed with the edge from further
-                        away if most of the tiles are not occupied.  A number of these special edge templates can be
-                        found <a href="http://www.mseymour.ca/hex_book/hexstrat9.html">here</a>, with some of the more common
-                        ones implemented in this agent, with the ability to add additional ones just by adding an entry
-                        to a dictionary.  These are useful in the beginning of the game, as it prevents an agent from trying
-                        to block a connection that it has no possiblity of doing.
-                    </p>
-                    <p>A major issue that came up with this approach of build a large chain or template chain is that
-                        an agent would often have a long chain that it had no ability to expand in a certain direction.  In
-                        the example below, red has a chain of length 4, but it has no immediate moves that allow for it to 
-                        expand upwards as the red tile on 18 is blocked by the tiles on 11 and 12.  This results in the agent
-                        not seeing any moves that improve its position, so it will often make poor moves until it sees moves that blocks
-                        the opponent from making good moves.
-                    </p>
-                    <img src="/img/hex_poison.png" width="240px">
-                    <p>The solution to this was to introduce a poison mechanic.  A tile is considered poisoned in
-                        a direction for a player if there is not an open adjacent tile in the next rank in the direction.
-                        In this scenario, tiles 17 and 18 are poisoned in the upwards direction for red, as the next
-                        move needs to be on the same rank rather than on the next rank, so the chain of rank length 4
-                        is really of rank length 3.  Tiles that are poisoned in a direction are also considered to determine
-                        if tiles should be poisoned, so tile 24 would also be poisoned in the upwards direction for red, 
-                        as 17 and 18 are both poisoned in that direction, resulting in a chain length of only 2 for this chain.
-                        Any tiles that are part of a template or edge connection are also considered occupied.
-                    </p>
-                    <p>There approach has some disadvantages to it.  In some scenarios it does over-penalize a position; 
-                        a chain of rank 4 that is poisoned to rank 2 could have a single move that would make it a rank 4 chain
-                        again.  Overall, this method led to significantly better agent performance, as agents were able
-                        to avoid positions where they had a long chain that they were not able to advance.
-                    </p>
-                </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Heuristic Overview</button>
+            <div class="dropdown-content" id="heuristicOverview">
+                <p>To calculate a heuristic score to approximate a position, the following
+                    items are used.
+                </p>
+                <ul>
+                    <li>A center score, where tiles closer to the center are worth more points.
+                        Red tiles add to the score, blue subtract
+                    </li>
+                    <li>A tempo offset, where the score is offset depending on which player has the
+                        next move.  This is necessary as otherwise every red move improves red's position
+                        and every blue move improves blue's position, which results in the score often depending
+                        more on who had the last move in the path in the tree rather than the actual position score.
+                    </li>
+                    <li>The rank length of the longest red and blue chains.  A chain is a set of
+                        tiles that are all connected of the same color.  The rank length only considers
+                        the difference in either row (for red) or column (for blue) along the chain.
+                    </li>
+                    <li>The rank length of the longest red and blue template chains.  In a template chain,
+                        the tiles are not all physically connected, but rather the opposing player has no
+                        possible way of preventing a connection given proper play.
+                    </li>
+                </ul>
+                <p>The first template is a standard one.  If a player has two chains that have two or
+                    more open tiles that are adjacent to both chains, it is not possible for the opponent to
+                    prevent the chains from becoming connected.  In the example shown below, the two red 
+                    tiles are not connected.  If blue moves on 18, red can move to 25, and vica versa.  So while
+                    the tiles are not physically connected, blue has no possibility of preventing a connection
+                    assuming red plays properly.
+                </p>
+                <img src="/img/hex_template.png" width="240px">
+                <p>The next template is an edge template.  In this template, if a chain has two or more
+                    open adjacent tiles that are connected to one of the player's edges, the opponent can't stop 
+                    a connection from being made to that edge.  In the example shown below, blue cannot prevent
+                    red from connecting to the top edge, as playing on 3 would be countered with connecting on 4, and 
+                    vica versa.
+                </p>
+                <img src="/img/hex_edge.png" width="180px">
+                <p>For edges, there are a number of templates that can be formed with the edge from further
+                    away if most of the tiles are not occupied.  A number of these special edge templates can be
+                    found <a href="http://www.mseymour.ca/hex_book/hexstrat9.html">here</a>, with some of the more common
+                    ones implemented in this agent, with the ability to add additional ones just by adding an entry
+                    to a dictionary.  These are useful in the beginning of the game, as it prevents an agent from trying
+                    to block a connection that it has no possiblity of doing.
+                </p>
+                <p>A major issue that came up with this approach of build a large chain or template chain is that
+                    an agent would often have a long chain that it had no ability to expand in a certain direction.  In
+                    the example below, red has a chain of length 4, but it has no immediate moves that allow for it to 
+                    expand upwards as the red tile on 18 is blocked by the tiles on 11 and 12.  This results in the agent
+                    not seeing any moves that improve its position, so it will often make poor moves until it sees moves that blocks
+                    the opponent from making good moves.
+                </p>
+                <img src="/img/hex_poison.png" width="240px">
+                <p>The solution to this was to introduce a poison mechanic.  A tile is considered poisoned in
+                    a direction for a player if there is not an open adjacent tile in the next rank in the direction.
+                    In this scenario, tiles 17 and 18 are poisoned in the upwards direction for red, as the next
+                    move needs to be on the same rank rather than on the next rank, so the chain of rank length 4
+                    is really of rank length 3.  Tiles that are poisoned in a direction are also considered to determine
+                    if tiles should be poisoned, so tile 24 would also be poisoned in the upwards direction for red, 
+                    as 17 and 18 are both poisoned in that direction, resulting in a chain length of only 2 for this chain.
+                    Any tiles that are part of a template or edge connection are also considered occupied.
+                </p>
+                <p>There approach has some disadvantages to it.  In some scenarios it does over-penalize a position; 
+                    a chain of rank 4 that is poisoned to rank 2 could have a single move that would make it a rank 4 chain
+                    again.  Overall, this method led to significantly better agent performance, as agents were able
+                    to avoid positions where they had a long chain that they were not able to advance.
+                </p>
             </div>
-            <div class="dropdown">
-                <button class="dropbtn">Current Performance</button>
-                <div class="dropdown-content" id="currentperformance">
-                    <p>Currently, the agent is able to play well on smaller boards, with its performance on a 7x7
-                        board being better than my own, and performing roughly to my ability on a 9x9 board.  On larger boards,
-                        the performance of the agent gets significantly worse and can easily be beaten by a decent human player.
-                        The major issue is that in the early game for larger boards, simply building a long chain is not
-                        a winning strategy.  The agent has no concept of territory (which is a major idea for Hex strategy), so it
-                        builds a long chain that a human is able to completely block on a single side, leaving the agent
-                        in too deep of a hole for its superior endgame play to dig out of.
-                    </p>
-                    <p>Another issue that arises in larger boards is that the agent currently has no knowledge about
-                        openings.  While a human player would behave like a dictionary for the first few moves, just making
-                        a move that theorists have spent long amounts of time analyzing, the agent is calculating the position in a
-                        few seconds.  This often leads to poor early moves, which also leave the agent in a hole it is not
-                        capable of escaping from.
-                    </p>
-                    <p>Another issue that affects the performance on all board sizes is that the agent often spends a large amount
-                        of its time calculating moves that have no real possiblity of improving the position, but just delay the game.
-                        An example is shown below; in a board evaluation, the agent evaluated over 300,000 boards for blue making
-                        a move that does not accomplish anything as red currently has an edge template on the bottom edge.  The reason
-                        that the agent does this is that when the board state gets further expanded, the positions are worse for the agent
-                        than it initially believed.  This results in the agent simply performing moves that prevent it from looking further
-                        down the board state and realizing it is doing poorly.
-                    </p>
-                    <img src="/img/hex_delay.png" width="480px">
-                </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Current Performance</button>
+            <div class="dropdown-content" id="currentperformance">
+                <p>Currently, the agent is able to play well on smaller boards, with its performance on a 7x7
+                    board being better than my own, and performing roughly to my ability on a 9x9 board.  On larger boards,
+                    the performance of the agent gets significantly worse and can easily be beaten by a decent human player.
+                    The major issue is that in the early game for larger boards, simply building a long chain is not
+                    a winning strategy.  The agent has no concept of territory (which is a major idea for Hex strategy), so it
+                    builds a long chain that a human is able to completely block on a single side, leaving the agent
+                    in too deep of a hole for its superior endgame play to dig out of.
+                </p>
+                <p>Another issue that arises in larger boards is that the agent currently has no knowledge about
+                    openings.  While a human player would behave like a dictionary for the first few moves, just making
+                    a move that theorists have spent long amounts of time analyzing, the agent is calculating the position in a
+                    few seconds.  This often leads to poor early moves, which also leave the agent in a hole it is not
+                    capable of escaping from.
+                </p>
+                <p>Another issue that affects the performance on all board sizes is that the agent often spends a large amount
+                    of its time calculating moves that have no real possiblity of improving the position, but just delay the game.
+                    An example is shown below; in a board evaluation, the agent evaluated over 300,000 boards for blue making
+                    a move that does not accomplish anything as red currently has an edge template on the bottom edge.  The reason
+                    that the agent does this is that when the board state gets further expanded, the positions are worse for the agent
+                    than it initially believed.  This results in the agent simply performing moves that prevent it from looking further
+                    down the board state and realizing it is doing poorly.
+                </p>
+                <img src="/img/hex_delay.png" width="480px">
             </div>
-         </div>
+        </div>
          <br>
     </body>
 </html>

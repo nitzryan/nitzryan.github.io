@@ -2,6 +2,7 @@
   --background_color: #000000;
   --text_color: #FFFFFF;
   --alt_color: #A57A03;
+  --highlight_color: #2222BB;
 
   --navbar_padding: 0.5em;
 }
@@ -15,6 +16,7 @@
 
 body {
   background-color: var(--background_color);
+  margin: 0;
 }
   
 button {
@@ -69,7 +71,6 @@ button {
 #navbar {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: flex-end;
     gap: 2em;
     padding: 0em;
@@ -78,31 +79,51 @@ button {
 #colorbar {
     background-color: var(--alt_color);
     width: 100%;
-    height: 3em;
+    height: 6em;
     margin-bottom: 1em;
 }
 
-#navbar >a, #navbar >div {
+.banner_element {
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 5em;
     height: 100%;
     font-size: 1.5em;
     padding: var(--navbar_padding);
     text-decoration: none;
+    text-align: center;
 }
 
 #navbar li {
   list-style: none;
+  width: 100%;
 }
 
-#navbar .selected {
-    background-color: color-mix(in srgb, var(--alt_color) 50%, var(--background_color) 50%);
+.banner_element a {
+  display: block;
+  width: calc(100% - 4px);
+  font-size: 1.25em;
+  margin-bottom: 0.2em;
+  text-decoration: none;
+  border: 2px solid var(--text_color);
+}
+
+.selected {
+    background-color: var(--alt_color);
     color: var(--text_color);
 }
 
-.banner_element:hover {
-  background-color: color-mix(in srgb, var(--alt_color) 80%, var(--background_color) 20%);
+.banner_element a.selected {
+  border-color: var(--highlight_color);
+}
+
+.selected:hover {
+  background-color: var(--alt_color);
+}
+
+.banner_element:hover, .banner_element *:hover {
+  background-color: color-mix(in srgb, var(--alt_color) 50%, var(--background_color) 50%);
 }
 
 .banner_element:hover ul {
@@ -129,8 +150,4 @@ button {
 
 .dropdown:hover {
   display: block;
-}
-
-.banner_element ul:hover {
-
 }

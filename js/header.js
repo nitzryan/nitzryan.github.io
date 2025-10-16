@@ -1,18 +1,34 @@
-async function f() {
-    var dropdownButtons = document.getElementsByClassName("dropbtn");
+let path = window.location.pathname
 
-    for (let i = 0; i < dropdownButtons.length; i++) {
-        dropdownButtons[i].addEventListener('click', function(event) {
-            let parent = event.target.parentElement;
-            let content = parent.children[1];
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-            } else {
-                content.style.display = 'block';
-            }
-        });
-    }
+console.log(path)
+
+let nav_home = document.getElementById('nav_home')
+
+let nav_ai = document.getElementById('nav_ai')
+let nav_ai_hex = document.getElementById('nav_ai_hex')
+let nav_ai_portsim = document.getElementById('nav_ai_portsim')
+
+let nav_sim = document.getElementById('nav_sim')
+let nav_sim_pathplan = document.getElementById('nav_sim_pathplan')
+let nav_sim_smoke = document.getElementById('nav_sim_smoke')
+
+if (path == "/")
+{
+    nav_home.classList.add('selected')
+} else if (path.includes("Hex.html"))
+{
+    nav_ai.classList.add('selected')
+    nav_ai_hex.classList.add('selected')
+} else if (path.includes("PortfolioSim.html"))
+{
+    nav_ai.classList.add('selected')
+    nav_ai_portsim.classList.add('selected')
+} else if (path.includes("PathPlanning.html"))
+{
+    nav_sim.classList.add('selected')
+    nav_sim_pathplan.classList.add('selected')
+} else if (path.includes("SmokeSim.html"))
+{
+    nav_sim.classList.add('selected')
+    nav_sim_smoke.classList.add('selected')
 }
-
-f();
-
