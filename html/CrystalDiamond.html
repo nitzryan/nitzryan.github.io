@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Baseball Models</title>
+        <script src="/js/header.js" async defer></script>
+        <link rel="stylesheet" href="/css/base.css">
+    </head>
+    <body>
+        <div id="navbar" class="row">
+    <a id="nav_home" href="/" class="banner_element">Home</a>
+    <div class="banner_element dropdown" id="nav_ai">AI/ML
+        <ul>
+            <li><a href="/html/CrystalDiamond.html" id="nav_ai_baseball">Baseball</a></li>
+            <li><a href="/html/Hex.html" id="nav_ai_hex">Hex</a></li>
+            <li><a href="/html/PortfolioSim.html" id="nav_ai_portsim">Portfolio Simulation</a></li>
+        </ul>
+    </div>
+    <div class="banner_element dropdown" id="nav_sim">Simulation
+        <ul>
+            <li><a href="/html/PathPlanning.html" id="nav_sim_pathplan">Path Planning</a></li>
+            <li><a href="/html/SmokeSim.html" id="nav_sim_smoke">Smoke & Fire Simulation</a></li>
+        </ul>
+    </div>
+    <!--
+    <ul>Misc
+        <li><a>Raytracer</a></li>
+        <li><a>Redirected Walking (VR)</a></li>
+    </ul> -->
+</div>
+<!-- <div id="colorbar"></div> -->
+         <h1>Crystal Diamond</h1>
+         <div class='repo'><a href='https://github.com/nitzryan/CrystalDiamond'>Repo</a></div>
+         <div class="repo"><a href="https://crystal-diamond.org">https://crystal-diamond.org</a></div>
+         <div class="section">
+            <h2>Overview</h2>
+            <p>MLB teams spend hundreds of millions each year per team to put the best
+                team on the field to win games, but one of the most successful ways to build a team
+                is to develop and or aquire superstar players during their initial years where they
+                aren't able to get the same compensation as they can as a free agent.  This project
+                looks at trying to value players in the minor leagues, as well as later adding on
+                predictions for MLB players.
+            </p>
+            <p>This PyTorch NN model works by taking players stats, both in the major and minor leagues,
+                on a monthly basis and then trying to make a number of predictions about the player,
+                both on their career and on more immediate results.  The main prediction that was made
+                was about how much WAR (wins above replacement, a statistic calculated to attempt to determine
+                how many wins a player produces over a player who could be signed to an MLB minimum contract)
+                during their period of team control (players must have 6 years of service before they are free to sign
+                with any team, so these years are extremely valueable to teams).
+            </p>
+         </div>
+         <div class="section">
+            <h2>Model Prospect Output</h2>
+            <p>For prospects, the model produces an initial projection based on draft position and
+                signing amount and age, and then the model produces an output each month until the player
+                either exhausts their rookie eligibility (130AB or 50IP, ignoring service time since no retroactive
+                data source was found).  An example is shown below
+            </p>
+            <br><br>
+            <img src="/img/cd_eval.png">
+            <br><br>
+            <p>For player outcomes, WAR bins are created, and the model is attempting to classify the player
+                as what bin they go into.  The expected WAR is then determined by taking the probability that the
+                player falls into a certain bin and the expected value of all players that fall into that bin.
+                This approach both allows for the ability to rank players on a singular metric--prospect rankings
+                are popular in baseball circles--while also showing that players with the same expected WAR may differ
+                in expected outcome: a safe but unspectacular prospect could aggretate the same WAR as a boom or bust
+                one, but the expectations for those players are completely different.
+            </p>
+         </div>
+         <div class="section">
+            <h2>Data Pipeline</h2>
+            <p>In order to get the data in a form that can be used by the model, there were a couple of major steps
+                that needed to be done.  The first was collecting data from different sources and combining them: MLB
+                has gamelog data through 2005, while WAR values were taken from <a href="https://fangraphs.com">Fangraphs</a> and
+                data about signing amounts was taken from <a href="https://baseball-reference.com">Baseball Reference</a>.  
+                The second step in the pipeline was to convert the raw statistics into those that are used in Baseball
+                analysis--models attempted to train on raw stats like AB, H, HR, BB, K struggled, while those trained on
+                AVG, SLG, BB%, K% did much better.
+            </p>
+            <p>
+                The third step was to normalize stats to their environment. 
+                Changes in rules, in the construction of the baseball used, advances in player development, different ballparks and
+                changing minor league structure meant that a statline from 2006 is not comparable to a statline
+                from 2025.  To address this, all stats that were fed into the model were normalized for their environment;
+                rather than feed in that a player slugged .450 in the International League, that SLG is taken as a multiple
+                of the average SLG in the International League that month.  So if the league averaged a SLG of .400, the
+                model would get fed in with a SLG value of 1.125.
+            </p>
+         </div>
+         <div class="section">
+            <h2>Model Archicture</h2>
+            <p>For the model architecture, a detailed description is found in the Methods section of 
+                <a href="https://crystal-diamond.org/methodology">the site</a>.  The simple description is that
+                the model is a RNN using PyTorch, with the prediction at each time step evaulated against the output.
+                Pitchers and Hitters are evaulated on seperate models, since there would only be about a 5% overlap between
+                the two.  The hitter model makes more accurate predictions, but I am not sure if that is because of not having 
+                enough data for pitchers, or that pitchers are just inherently harder to predict; the acronym 
+                TINSTAAPP (there is no such thing as a pitching prospect) has been around since <a href="https://www.espn.com/blog/sweetspot/post/_/id/6702/just-another-tinstaapp-lesson">at least 2010 and likely earlier</a>,
+                and <a href="https://en.wikipedia.org/wiki/List_of_baseball_players_who_underwent_Tommy_John_surgery">numerous</a> pitchers 
+                have had major arm issues that required surgury.  No matter how good a pitcher currently is, the model has to account 
+                for the chance that they will blow out their arm and never be as good as pre-injury.
+            </p>
+         </div>
+    </body>
+</html>
