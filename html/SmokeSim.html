@@ -27,33 +27,31 @@
     </ul> -->
 </div>
 <!-- <div id="colorbar"></div> -->
-        <p><a class="repo" href="https://github.com/nitzryan/SmokeSim">Repo</a></p>
-        <div class="dropdown">
-            <button class="dropbtn">Smoke Simulation Method</button>
-            <div class="dropdown-content" id="smokeMethod">
-                <p>For the simulation on just following a gas through space, the space was split
-                    into a 2D grid with cells of fixed size.  At each time step, the velocity (in 2D)
-                    and amount of gas is stored for each cell.  For each time step, the change in velocity
-                    and amount of gas were calculated using the <a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_equations">Navier-Stokes equations</a>
-                    , with the amount of gas being represented as the density in the equations.  This results in three different
-                    things modifying the state each step: changes due to advection, changes due to diffusion,
-                    and either external sources (for density) or external forces (for velocity).  The approach for
-                    many of the numerical calculations was taken from <a href="https://www.dgp.toronto.edu/public_user/stam/reality/Research/pdf/GDC03.pdf">Real-Time Fluid Dynamics for Games</a>.
-                </p>
-                <p>All simulations done were 2D simulations; however this approach can be expanded to 3D with no major
-                    issues, other than increasing computational demand.  All simulations were also done on a CPU single-threaded, which
-                    could be significantly sped up by using multiple threads or using a GPU if available.
-                </p>
-            </div>
+        <div class="repo"><a href="https://github.com/nitzryan/SmokeSim">Repo</a></div>
+        <div class="section">
+            <h2>Smoke Simulation Method</h2>
+            <p>For the simulation on just following a gas through space, the space was split
+                into a 2D grid with cells of fixed size.  At each time step, the velocity (in 2D)
+                and amount of gas is stored for each cell.  For each time step, the change in velocity
+                and amount of gas were calculated using the <a href="https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_equations">Navier-Stokes equations</a>
+                , with the amount of gas being represented as the density in the equations.  This results in three different
+                things modifying the state each step: changes due to advection, changes due to diffusion,
+                and either external sources (for density) or external forces (for velocity).  The approach for
+                many of the numerical calculations was taken from <a href="https://www.dgp.toronto.edu/public_user/stam/reality/Research/pdf/GDC03.pdf">Real-Time Fluid Dynamics for Games</a>.
+            </p>
+            <p>All simulations done were 2D simulations; however this approach can be expanded to 3D with no major
+                issues, other than increasing computational demand.  All simulations were also done on a CPU single-threaded, which
+                could be significantly sped up by using multiple threads or using a GPU if available.
+            </p>
          </div>
-         <div class="dropdown">
-            <button class="dropbtn">Smoke Simulation Results</button>
-            <div class="dropdown-content" id="smokeResults">
-                <p>Below are some results for this simulation, for the same scenario with different values for the
-                    time step and number of cells.  This shows that this simulation is highly sensitive to the timestep,
-                    with a large amount of information being lost with large timesteps.  The first and second simulations are
-                    able to be run in real-time on a single-threaded CPU, while the 3rd was not able to be rendered in real time.
-                </p>
+         <div class="section">
+            <h2>Smoke Simulation Results</h2>
+            <p>Below are some results for this simulation, for the same scenario with different values for the
+                time step and number of cells.  This shows that this simulation is highly sensitive to the timestep,
+                with a large amount of information being lost with large timesteps.  The first and second simulations are
+                able to be run in real-time on a single-threaded CPU, while the 3rd was not able to be rendered in real time.
+            </p>
+            <div class="center">
                 <table>
                     <thead>
                         <th>
@@ -65,7 +63,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Render</td>
+                            <td></td>
                             <td><img src="/img/smoke_low.gif"></td>
                             <td><img src="/img/smoke_med.gif"></td>
                             <td><img src="/img/smoke_high.gif"></td>
@@ -84,53 +82,49 @@
                         </tr>
                     </tbody>
                 </table>
-                <p>Looking at the low detail simulation, the flow is far to basic, missing the curls
-                    that occur in the more detailed simulations and in reality.  The medium and high detail
-                    simulations both produce generally the same shape, but with the medium simulation missing
-                    some of the more minor details.  
-                </p>
-                <p>For renderings that do not need to occur in real time and are highly concerned with accuracy,
-                    the parameters should be increased to as high as feasible in GPU-run code.  Since this was done
-                    in CPU code, I have not explored much into increases in cells vs timestep for simulations more
-                    intensive than what was shown here.  Many applications, however, do require running in real time.
-                    For these, the medium detail scenario gives a reasonable result while leaving system resources
-                    available for other tasks.  The medium detail scenario could also be upscaled in a way that
-                    could increase the render quality while not affecting the simulation data itself.
-                </p>
             </div>
+            <p>Looking at the low detail simulation, the flow is far to basic, missing the curls
+                that occur in the more detailed simulations and in reality.  The medium and high detail
+                simulations both produce generally the same shape, but with the medium simulation missing
+                some of the more minor details.  
+            </p>
+            <p>For renderings that do not need to occur in real time and are highly concerned with accuracy,
+                the parameters should be increased to as high as feasible in GPU-run code.  Since this was done
+                in CPU code, I have not explored much into increases in cells vs timestep for simulations more
+                intensive than what was shown here.  Many applications, however, do require running in real time.
+                For these, the medium detail scenario gives a reasonable result while leaving system resources
+                available for other tasks.  The medium detail scenario could also be upscaled in a way that
+                could increase the render quality while not affecting the simulation data itself.
+            </p>
          </div>
-         <div class="dropdown">
-            <button class="dropbtn">Fire Simulation Method</button>
-            <div class="dropdown-content" id="fireMethod">
-                <p>The fire simulation is an extension of the smoke simulation, with the temperature of each cell
-                    being tracked as well as the density and velocity.  This temperature both diffuses (conduction) and
-                    advects like the previous terms, and it also changes the pressure using the ideal gas law.  This approach
-                    makes no differention between smoke and fire, but simulates this in the rendering by having the color
-                    change by the temperature of the gas to simulate the light being radiated from the higher temperatures.
-                </p>
-                <p>Using this method, the results looked like a composite fire rather than an actual one; the system
-                    would reach a steady-state result which did not match the chaotic state of a fire.  Two sources of randomness
-                    were introduced.  The first was to vary the source function over both time and location to simulate the fire
-                    growing and shrinking over time, as well as occasionaly having flares at certain points.  The second method
-                    was taken from <a href="https://matthias-research.github.io/pages/tenMinutePhysics/21-fire.pdf">Ten Minute Physics</a>
-                    which involved adding random swirls above the fire source.  These two changes resulted in a much more
-                    dynamic fire.
-                </p>
-            </div>
+         <div class="section">
+            <h2>Fire Simulation Method</h2>
+            <p>The fire simulation is an extension of the smoke simulation, with the temperature of each cell
+                being tracked as well as the density and velocity.  This temperature both diffuses (conduction) and
+                advects like the previous terms, and it also changes the pressure using the ideal gas law.  This approach
+                makes no differention between smoke and fire, but simulates this in the rendering by having the color
+                change by the temperature of the gas to simulate the light being radiated from the higher temperatures.
+            </p>
+            <p>Using this method, the results looked like a composite fire rather than an actual one; the system
+                would reach a steady-state result which did not match the chaotic state of a fire.  Two sources of randomness
+                were introduced.  The first was to vary the source function over both time and location to simulate the fire
+                growing and shrinking over time, as well as occasionaly having flares at certain points.  The second method
+                was taken from <a href="https://matthias-research.github.io/pages/tenMinutePhysics/21-fire.pdf">Ten Minute Physics</a>
+                which involved adding random swirls above the fire source.  These two changes resulted in a much more
+                dynamic fire.
+            </p>
          </div>
-         <div class="dropdown">
-            <button class="dropbtn">Fire Simulation Results</button>
-            <div class="dropdown-content" id="fireResults">
-                <img src="/img/fire.gif">
-                <p>The results for this simulation gives a good general fire.  There are some methods that could improve the rendering
-                    that do not involved changing the simulation itself.  The source function could be modified to give more random values
-                    (currently it is just multiple offset sine waves).  The conversion between smoke value and temperature to color is arbitrary
-                    in the current rendering and may be degrading the quality of the simulation data itself.  For the GPU rendering
-                    (which is done in OpenGL), the RGB value is calculated per cell and OpenGL is interpolating between cell values, but
-                    modifying the GPU kernel to take in the simulation data per cell and do the interpolation on the sim data would lead to better
-                    results, as the relationship between temperature and color is not linear at all values.
-                </p>
-            </div>
+         <div class="section">
+            <h2>Fire Simulation Results</h2>
+            <img src="/img/fire.gif">
+            <p>The results for this simulation gives a good general fire.  There are some methods that could improve the rendering
+                that do not involved changing the simulation itself.  The source function could be modified to give more random values
+                (currently it is just multiple offset sine waves).  The conversion between smoke value and temperature to color is arbitrary
+                in the current rendering and may be degrading the quality of the simulation data itself.  For the GPU rendering
+                (which is done in OpenGL), the RGB value is calculated per cell and OpenGL is interpolating between cell values, but
+                modifying the GPU kernel to take in the simulation data per cell and do the interpolation on the sim data would lead to better
+                results, as the relationship between temperature and color is not linear at all values.
+            </p>
          </div>
     </body>
 </html>
